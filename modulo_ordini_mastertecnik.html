@@ -398,6 +398,7 @@
     <div class="modal-header">
       <strong style="font-size:16px;color:var(--accent)">🖨️ Anteprima documento</strong>
       <div style="display:flex;gap:8px">
+        <button class="btn-ok btn-close" onclick="sendEmail()" style="background:#1a6bbf">✉️ Invia per email</button>
         <button class="btn-secondary btn-close" onclick="window.print()">🖨️ Stampa / PDF</button>
         <button class="btn-danger btn-close" onclick="chiudiAnteprima()">✕ Chiudi</button>
       </div>
@@ -412,7 +413,7 @@
 // =============================================
 const ODOO_URL  = 'https://master-tecnik.odoo.com';
 const ODOO_DB   = 'master-tecnik';
-const EMAIL_TO  = 'giulio.ceccon@mastertecnik.it,marketing@mastertecnik.it';
+const EMAIL_TO  = 'giulio.ceccon@mastertecnik.it,santoli@mastertecnik.it';
 
 // =============================================
 // STATO GLOBALE
