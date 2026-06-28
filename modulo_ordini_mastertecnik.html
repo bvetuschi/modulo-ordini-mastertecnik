@@ -372,7 +372,6 @@
       👁️ Anteprima e invio
     </button>
     <div class="actions">
-      <button class="btn-ok" onclick="saveDraft()">💾 Salva bozza</button>
       <button class="btn-danger" onclick="resetOrder()">🗑️ Nuovo documento</button>
     </div>
     <p class="mini" style="margin-top:10px;text-align:center">
@@ -433,7 +432,6 @@ function init() {
   document.getElementById('data').value = today;
   document.getElementById('numero').value = genDocNum();
   updateDatalistClienti();
-  loadDraft();
   renderProductEditor();
   if (document.querySelectorAll('.line-item').length === 0) addLine();
   calc();
@@ -709,46 +707,8 @@ function exportCsv() {
   a.click();
 }
 
-// =============================================
-// BOZZA
-// =============================================
-function saveDraft() {
-  // Salva anche in localStorage come backup
-  const data = {};
-  ['numero','data','agente','cliente','telefono','emailCliente',
-   'priorita','consegna','trasporto','pagamento','noteCliente','noteMagazzino']
-    .forEach(id => data[id] = document.getElementById(id).value);
-  data.docType = docType;
-  data.lines = [...document.querySelectorAll('.line-item')].map(line => ({
-    prodNome:   line.querySelector('.prod-text')?.value || '',
-    prodIdx:    line.querySelector('.prod-idx')?.value || '',
-    prezzo:     line.querySelector('.prezzo').value,
-    qta:        line.querySelector('.qta').value,
-    sconto:     line.querySelector('.sconto').value,
-    scontoEuro: line.querySelector('.sconto-euro')?.value || '0',
-    iva:        line.querySelector('.iva').value,
-    noteriga:   line.querySelector('.noteriga').value
-  }));
-  localStorage.setItem('mt_draft', JSON.stringify(data));
-  alert('✅ Bozza salvata. La ritrovi al prossimo avvio su questo dispositivo.');
-}
-
-function loadDraft() {
-  const data = JSON.parse(localStorage.getItem('mt_draft') || 'null');
-  if (!data) return;
-  ['numero','data','agente','cliente','telefono','emailCliente',
-   'priorita','consegna','trasporto','pagamento','noteCliente','noteMagazzino']
-    .forEach(id => { if (document.getElementById(id) && data[id] !== undefined) document.getElementById(id).value = data[id]; });
-  if (data.docType) { docType = data.docType; setDocType(docType); }
-  if (data.lines?.length) {
-    document.getElementById('lines').innerHTML = '';
-    data.lines.forEach(addLine);
-  }
-}
-
 function resetOrder() {
   if (!confirm('Cancellare il documento corrente e iniziarne uno nuovo?')) return;
-  localStorage.removeItem('mt_draft');
   location.reload();
 }
 
